@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@plugin "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+:root {
+  --brand-primary: #2f6f4e;
+  --brand-primary-dark: #204e37;
+  --brand-accent: #c89b3c;
+  --brand-bg: #faf7ef;
+  --brand-ink: #20291f;
+  --brand-border: #e7dfc9;
+  --brand-surface: #ffffff;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  background: var(--brand-bg);
+  color: var(--brand-ink);
+}
+
+body {
+  min-width: 320px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+.page-enter {
+  animation: page-enter 180ms ease-out;
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
