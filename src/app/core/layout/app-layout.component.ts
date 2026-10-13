@@ -143,28 +143,29 @@ export class AppLayoutComponent {
   readonly navSections: NavSection[] = [
     { label: 'Accueil', items: [{ label: 'Tableau de bord', icon: 'pi pi-home', route: '/dashboard', permissions: ['DASHBOARD_VIEW'] }] },
     {
-      label: 'Dahira',
-      items: [
-        { label: 'Membres', icon: 'pi pi-users', route: '/members', permissions: ['MEMBER_READ'] },
-        { label: 'Activités', icon: 'pi pi-calendar', route: '/activities', permissions: ['ACTIVITY_READ'] },
-        { label: 'Commissions', icon: 'pi pi-sitemap', route: '/commissions', permissions: ['COMMISSION_READ'] }
-      ]
-    },
-    {
       label: 'École coranique',
       items: [
-        { label: 'Élèves', icon: 'pi pi-users', route: '/students', permissions: ['STUDENT_READ'] },
-        { label: 'Enseignants', icon: 'pi pi-user-edit', route: '/teachers', permissions: ['TEACHER_READ'] },
-        { label: 'Groupes', icon: 'pi pi-th-large', route: '/groups', permissions: ['GROUP_READ'] },
-        { label: 'Présences', icon: 'pi pi-calendar-clock', route: '/attendance', permissions: ['ATTENDANCE_READ'] },
-        { label: 'Suivi pédagogique', icon: 'pi pi-book', route: '/pedagogical-tracking', permissions: ['PEDAGOGICAL_TRACKING_READ'] }
+        { label: 'Élèves', icon: 'pi pi-users', route: '/students', permissions: ['STUDENT_MANAGE'] },
+        { label: 'Enseignants', icon: 'pi pi-user-edit', route: '/teachers', permissions: ['TEACHER_MANAGE'] },
+        { label: 'Groupes', icon: 'pi pi-th-large', route: '/groups', permissions: ['GROUP_MANAGE'] },
+        { label: 'Présences', icon: 'pi pi-calendar-clock', route: '/attendance', permissions: ['ATTENDANCE_MANAGE'] },
+        { label: 'Suivi pédagogique', icon: 'pi pi-book', route: '/pedagogical-tracking', permissions: ['PEDAGOGICAL_TRACKING_MANAGE'] }
       ]
     },
     {
-      label: 'Boutique',
+      label: 'Dahira et organisation',
       items: [
-        { label: 'Catalogue', icon: 'pi pi-box', route: '/shop', permissions: ['PRODUCT_READ'] },
-        { label: 'Panier', icon: 'pi pi-shopping-cart', route: '/shop/cart', permissions: ['PRODUCT_READ', 'ORDER_READ'] },
+        { label: 'Membres', icon: 'pi pi-users', route: '/members', permissions: ['MEMBER_MANAGE'] },
+        { label: 'Activités', icon: 'pi pi-calendar', route: '/activities', permissions: ['ACTIVITY_MANAGE'] },
+        { label: 'Commissions', icon: 'pi pi-sitemap', route: '/commissions', permissions: ['COMMISSION_MANAGE'] }
+      ]
+    },
+    { label: 'Finances', items: [{ label: 'Paiements et cotisations', icon: 'pi pi-wallet', route: '/payments', permissions: ['PAYMENT_MANAGE'] }] },
+    {
+      label: 'Boutique et stock',
+      items: [
+        { label: 'Catalogue', icon: 'pi pi-box', route: '/shop' },
+        { label: 'Panier', icon: 'pi pi-shopping-cart', route: '/shop/cart', permissions: ['ORDER_READ', 'ORDER_MANAGE'] },
         { label: 'Ventes', icon: 'pi pi-receipt', route: '/shop/sales', permissions: ['ORDER_MANAGE'] }
       ]
     },
@@ -175,7 +176,6 @@ export class AppLayoutComponent {
         { label: 'Mes commandes', icon: 'pi pi-receipt', route: '/orders', permissions: ['ORDER_READ'] }
       ]
     },
-    { label: 'Finance', items: [{ label: 'Cotisations', icon: 'pi pi-wallet', route: '/payments', permissions: ['PAYMENT_READ'] }] },
     { label: 'Administration', items: [{ label: 'Utilisateurs, rôles & permissions', icon: 'pi pi-shield', route: '/administration/access', permissions: ['ROLE_MANAGE', 'PERMISSION_MANAGE'] }] }
   ];
 

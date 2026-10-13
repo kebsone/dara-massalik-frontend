@@ -22,34 +22,82 @@ const ROLE_LABELS: Record<UserRole, string> = {
   PARENT: 'Parent'
 };
 
+
+
 const PERMISSION_META: Record<Permission, PermissionMeta> = {
-  DASHBOARD_VIEW: { label: 'Consulter le tableau de bord', group: 'Général' },
-  MEMBER_READ: { label: 'Consulter les membres', group: 'Dahira' },
-  MEMBER_WRITE: { label: 'Gérer les membres', group: 'Dahira' },
-  ACTIVITY_READ: { label: 'Consulter les activités', group: 'Dahira' },
-  ACTIVITY_WRITE: { label: 'Gérer les activités', group: 'Dahira' },
-  COMMISSION_READ: { label: 'Consulter les commissions', group: 'Dahira' },
-  COMMISSION_WRITE: { label: 'Gérer les commissions', group: 'Dahira' },
-  STUDENT_READ: { label: 'Consulter les élèves', group: 'École coranique' },
-  STUDENT_WRITE: { label: 'Gérer les élèves', group: 'École coranique' },
-  TEACHER_READ: { label: 'Consulter les enseignants', group: 'École coranique' },
-  TEACHER_WRITE: { label: 'Gérer les enseignants', group: 'École coranique' },
-  GROUP_READ: { label: 'Consulter les groupes', group: 'École coranique' },
-  GROUP_WRITE: { label: 'Gérer les groupes', group: 'École coranique' },
-  ATTENDANCE_READ: { label: 'Consulter les présences', group: 'École coranique' },
-  ATTENDANCE_WRITE: { label: 'Gérer les présences', group: 'École coranique' },
-  PEDAGOGICAL_TRACKING_READ: { label: 'Consulter le suivi pédagogique', group: 'École coranique' },
-  PEDAGOGICAL_TRACKING_WRITE: { label: 'Gérer le suivi pédagogique', group: 'École coranique' },
-  PRODUCT_READ: { label: 'Consulter les produits', group: 'Boutique' },
-  PRODUCT_WRITE: { label: 'Gérer les produits', group: 'Boutique' },
-  STOCK_WRITE: { label: 'Gérer le stock', group: 'Boutique' },
-  ORDER_READ: { label: 'Consulter les commandes', group: 'Boutique' },
-  ORDER_MANAGE: { label: 'Gérer les commandes', group: 'Boutique' },
-  PAYMENT_READ: { label: 'Consulter les cotisations', group: 'Finance' },
-  PAYMENT_WRITE: { label: 'Gérer les cotisations', group: 'Finance' },
-  USER_MANAGE: { label: 'Gérer les utilisateurs', group: 'Administration' },
-  ROLE_MANAGE: { label: 'Attribuer les rôles', group: 'Administration' },
-  PERMISSION_MANAGE: { label: 'Gérer les permissions', group: 'Administration' }
+  DASHBOARD_VIEW: {
+    label: 'Consulter le tableau de bord',
+    group: 'Général'
+  },
+
+  MEMBER_MANAGE: {
+    label: 'Gérer les membres',
+    group: 'Dahira'
+  },
+  ACTIVITY_MANAGE: {
+    label: 'Gérer les activités',
+    group: 'Dahira'
+  },
+  COMMISSION_MANAGE: {
+    label: 'Gérer les commissions',
+    group: 'Dahira'
+  },
+
+  STUDENT_MANAGE: {
+    label: 'Gérer les élèves',
+    group: 'École coranique'
+  },
+  TEACHER_MANAGE: {
+    label: 'Gérer les enseignants',
+    group: 'École coranique'
+  },
+  GROUP_MANAGE: {
+    label: 'Gérer les groupes',
+    group: 'École coranique'
+  },
+  ATTENDANCE_MANAGE: {
+    label: 'Gérer les présences',
+    group: 'École coranique'
+  },
+  PEDAGOGICAL_TRACKING_MANAGE: {
+    label: 'Gérer le suivi pédagogique',
+    group: 'École coranique'
+  },
+
+  PRODUCT_MANAGE: {
+    label: 'Gérer les produits',
+    group: 'Boutique'
+  },
+  STOCK_WRITE: {
+    label: 'Gérer le stock',
+    group: 'Boutique'
+  },
+  ORDER_READ: {
+    label: 'Consulter les commandes',
+    group: 'Boutique'
+  },
+  ORDER_MANAGE: {
+    label: 'Gérer les commandes',
+    group: 'Boutique'
+  },
+
+  PAYMENT_MANAGE: {
+    label: 'Gérer les paiements',
+    group: 'Finances'
+  },
+
+  USER_MANAGE: {
+    label: 'Gérer les utilisateurs',
+    group: 'Administration'
+  },
+  ROLE_MANAGE: {
+    label: 'Attribuer les rôles',
+    group: 'Administration'
+  },
+  PERMISSION_MANAGE: {
+    label: 'Gérer les permissions',
+    group: 'Administration'
+  }
 };
 
 @Component({
