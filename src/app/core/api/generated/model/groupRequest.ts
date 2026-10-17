@@ -12,5 +12,6 @@
 export interface GroupRequest { 
     name: string;
     teacherId?: number;
+    color?: string;
 }
 

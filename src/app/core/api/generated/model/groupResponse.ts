@@ -12,6 +12,7 @@
 export interface GroupResponse { 
     id?: number;
     name?: string;
+    color?: string;
     teacherId?: number;
     teacherName?: string;
 }

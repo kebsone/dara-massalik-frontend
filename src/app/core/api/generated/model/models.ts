@@ -35,6 +35,8 @@ export * from './rolePermissionUpdateRequest';
 export * from './sortObject';
 export * from './studentRequest';
 export * from './studentResponse';
+export * from './studentTrackingHistoryEntry';
+export * from './studentTrackingHistoryResponse';
 export * from './teacherRequest';
 export * from './teacherResponse';
 export * from './userPermissionSettings';

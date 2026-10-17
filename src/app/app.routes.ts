@@ -17,10 +17,24 @@ export const routes: Routes = [
       { path: 'commissions', loadComponent: () => import('./features/commissions/commissions.component').then(m => m.CommissionsComponent) },
       { path: 'students', loadComponent: () => import('./features/students/students.component').then(m => m.StudentsComponent) },
       { path: 'students/:id', loadComponent: () => import('./features/students/student-detail.component').then(m => m.StudentDetailComponent) },
-      { path: 'teachers', loadComponent: () => import('./shared/placeholder.component').then(m => m.PlaceholderComponent), data: { title: 'Enseignants' } },
-      { path: 'groups', loadComponent: () => import('./shared/placeholder.component').then(m => m.PlaceholderComponent), data: { title: 'Groupes' } },
+      {
+  path: 'teachers',
+  loadComponent: () =>
+    import('./features/teachers/teacher-list.component')
+      .then(m => m.TeacherListComponent),
+  data: { title: 'Enseignants' }
+},
+      
+{
+  path: 'groups',
+  loadComponent: () =>
+    import('./features/groups/group-list.component')
+      .then(m => m.GroupListComponent),
+  data: { title: 'Classes' }
+},      
+      
       { path: 'attendance', loadComponent: () => import('./features/attendance/attendance.component').then(m => m.AttendanceComponent) },
-      { path: 'pedagogical-tracking', loadComponent: () => import('./features/pedagogical-tracking/pedagogical-tracking.component').then(m => m.PedagogicalTrackingComponent) },
+      { path: 'pedagogical-tracking', pathMatch: 'full', redirectTo: 'attendance' },
       { path: 'shop', loadComponent: () => import('./features/shop/shop.component').then(m => m.ShopComponent) },
       { path: 'shop/cart', loadComponent: () => import('./features/shop/shop-cart.component').then(m => m.ShopCartComponent) },
       { path: 'shop/products/:id', loadComponent: () => import('./features/shop/shop-product-detail.component').then(m => m.ShopProductDetailComponent) },

@@ -65,7 +65,26 @@ import { Student, StudentRequest, StudentStore } from './student.store';
                   <span>{{ student.firstName }} {{ student.lastName }}</span>
                 </a>
               </td>
-              <td>{{ student.groupName || 'Sans groupe' }}</td>
+              <td class="px-4 py-3">
+  @if (student.groupColor && student.groupName) {
+    <span
+      class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium"
+      [style.background-color]="(student.groupColor || '#2563EB') + '20'"
+      [style.color]="student.groupColor || '#2563EB'"
+    >
+      <span
+        class="h-2 w-2 rounded-full"
+        [style.background-color]="student.groupColor || '#2563EB'"
+      ></span>
+
+      {{ student.groupName }}
+    </span>
+  } @else {
+    <span class="text-sm text-slate-400">
+      Non affecté
+    </span>
+  }
+</td>
               <td>{{ student.birthDate ? (student.birthDate | date:'dd/MM/yyyy') : '—' }}</td>
               <td><div>{{ student.parentName || '—' }}</div><div class="text-xs text-slate-400">{{ student.parentPhone || student.phone || '' }}</div></td>
               <td><p-tag [value]="student.active ? 'Actif' : 'Inactif'" [severity]="student.active ? 'success' : 'secondary'" /></td>

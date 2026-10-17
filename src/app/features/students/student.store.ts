@@ -5,7 +5,10 @@ import { firstValueFrom } from 'rxjs';
 import { PageResponse, SchoolGroup, Student, StudentRequest } from './student.model';
 import { GroupApiService } from 'src/app/core/api/group-api.service';
 import { StudentApiService } from 'src/app/core/api/student-api.service';
-
+import { PedagogicalTrackingResponse } from 'src/app/core/api/generated';
+import { PedagogicalTrackingService } from 'src/app/core/api/generated/api/pedagogicalTracking.service';
+import { StudentTrackingHistoryResponse } from 'src/app/core/api/generated';
+import { StudentTrackingHistoryService } from 'src/app/core/api/generated/api/studentTrackingHistory.service';
 export type { SchoolGroup, Student, StudentRequest } from './student.model';
 
 interface StudentState {
@@ -26,6 +29,10 @@ interface StudentState {
   allActiveStudents: Student[];
   allActiveStudentsLoaded: boolean;
   allActiveStudentsLoading: boolean;
+  trackingHistory: StudentTrackingHistoryResponse['history'];
+   trackingLoading :boolean;
+ trackingError :string | null;
+
 }
 
 const initialState: StudentState = {
@@ -45,7 +52,10 @@ const initialState: StudentState = {
   page: 0,
   pageSize: 10,
   totalElements: 0,
-  totalPages: 0
+  totalPages: 0,
+    trackingHistory:[],
+   trackingLoading :false,
+ trackingError :null
 };
 
 function apiError(error: unknown, fallback: string): string {
@@ -67,7 +77,7 @@ export const StudentStore = signalStore(
     groupCount: computed(() => groups().length),
     hasStudents: computed(() => totalElements() > 0)
   })),
-  withMethods((store, studentApi = inject(StudentApiService), groupApi = inject(GroupApiService)) => ({
+  withMethods((store, studentApi = inject(StudentApiService), groupApi = inject(GroupApiService),  trackingApi = inject(StudentTrackingHistoryService)) => ({
     async loadStudents(
       search = store.search(),
       groupId = store.groupFilter(),
@@ -105,7 +115,37 @@ export const StudentStore = signalStore(
         });
       }
     },
+async loadTrackingHistory(studentId: number): Promise<void> {
+  patchState(store, {
+    trackingLoading: true,
+    trackingError: null,
+    trackingHistory: []
+  });
 
+  try {
+    const response = await firstValueFrom(
+      trackingApi.getHistory({ studentId })
+    );
+
+    const history = [...(response.history ?? [])].sort((a, b) =>
+      (b.date ?? '').localeCompare(a.date ?? '')
+    );
+
+    patchState(store, {
+      trackingHistory: history,
+      trackingLoading: false
+    });
+  } catch (error) {
+    patchState(store, {
+      trackingLoading: false,
+      trackingHistory: [],
+      trackingError: apiError(
+        error,
+        "Impossible de charger l'historique de l'élève."
+      )
+    });
+  }
+},
     async loadGroups(): Promise<void> {
       patchState(store, { groupsError: null });
       try {

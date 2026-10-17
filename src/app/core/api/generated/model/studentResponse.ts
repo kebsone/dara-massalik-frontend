@@ -20,5 +20,6 @@ export interface StudentResponse {
     active?: boolean;
     groupId?: number;
     groupName?: string;
+    groupColor?: string;
 }
 

@@ -148,8 +148,7 @@ export class AppLayoutComponent {
         { label: 'Élèves', icon: 'pi pi-users', route: '/students', permissions: ['STUDENT_MANAGE'] },
         { label: 'Enseignants', icon: 'pi pi-user-edit', route: '/teachers', permissions: ['TEACHER_MANAGE'] },
         { label: 'Groupes', icon: 'pi pi-th-large', route: '/groups', permissions: ['GROUP_MANAGE'] },
-        { label: 'Présences', icon: 'pi pi-calendar-clock', route: '/attendance', permissions: ['ATTENDANCE_MANAGE'] },
-        { label: 'Suivi pédagogique', icon: 'pi pi-book', route: '/pedagogical-tracking', permissions: ['PEDAGOGICAL_TRACKING_MANAGE'] }
+        { label: 'Suivi des séances', icon: 'pi pi-calendar', route: '/attendance', permissions: ['ATTENDANCE_MANAGE'] },
       ]
     },
     {

@@ -29,6 +29,8 @@ api/pedagogicalTracking.service.ts
 api/pedagogicalTracking.serviceInterface.ts
 api/shop.service.ts
 api/shop.serviceInterface.ts
+api/studentTrackingHistory.service.ts
+api/studentTrackingHistory.serviceInterface.ts
 api/students.service.ts
 api/students.serviceInterface.ts
 api/teachers.service.ts
@@ -77,6 +79,8 @@ model/rolePermissionUpdateRequest.ts
 model/sortObject.ts
 model/studentRequest.ts
 model/studentResponse.ts
+model/studentTrackingHistoryEntry.ts
+model/studentTrackingHistoryResponse.ts
 model/teacherRequest.ts
 model/teacherResponse.ts
 model/userPermissionSettings.ts
