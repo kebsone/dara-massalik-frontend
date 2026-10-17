@@ -10,7 +10,7 @@
 
 
 export interface StudentResponse { 
-    id?: number;
+    id: number;
     firstName?: string;
     lastName?: string;
     birthDate?: string;

@@ -2,18 +2,18 @@ import { computed, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
-import { PageResponse, SchoolGroup, Student, StudentRequest } from './student.model';
+import { PageResponse, SchoolGroup, StudentRequest } from './student.model';
 import { GroupApiService } from 'src/app/core/api/group-api.service';
 import { StudentApiService } from 'src/app/core/api/student-api.service';
-import { PedagogicalTrackingResponse } from 'src/app/core/api/generated';
+import { PedagogicalTrackingResponse, StudentResponse } from 'src/app/core/api/generated';
 import { PedagogicalTrackingService } from 'src/app/core/api/generated/api/pedagogicalTracking.service';
 import { StudentTrackingHistoryResponse } from 'src/app/core/api/generated';
 import { StudentTrackingHistoryService } from 'src/app/core/api/generated/api/studentTrackingHistory.service';
-export type { SchoolGroup, Student, StudentRequest } from './student.model';
+export type { SchoolGroup,   StudentRequest } from './student.model';
 
 interface StudentState {
-  students: Student[];
-  selectedStudent: Student | null;
+  students: StudentResponse[];
+  selectedStudent: StudentResponse | null;
   groups: SchoolGroup[];
   loading: boolean;
   detailsLoading: boolean;
@@ -26,7 +26,7 @@ interface StudentState {
   pageSize: number;
   totalElements: number;
   totalPages: number;
-  allActiveStudents: Student[];
+  allActiveStudents: StudentResponse[];
   allActiveStudentsLoaded: boolean;
   allActiveStudentsLoading: boolean;
   trackingHistory: StudentTrackingHistoryResponse['history'];
@@ -93,7 +93,7 @@ export const StudentStore = signalStore(
         pageSize: size
       });
       try {
-        const response: PageResponse<Student> = await firstValueFrom(
+        const response: PageResponse<StudentResponse> = await firstValueFrom(
           studentApi.list({ search, groupId, page, size })
         );
         console.log('Loaded students:', response);
@@ -173,7 +173,7 @@ async loadTrackingHistory(studentId: number): Promise<void> {
       }
     },
 
-    async createStudent(request: StudentRequest): Promise<Student | null> {
+    async createStudent(request: StudentRequest): Promise<StudentResponse  | null> {
       patchState(store, { saving: true, error: null });
       try {
         const created = await firstValueFrom(studentApi.create(request));
@@ -185,7 +185,7 @@ async loadTrackingHistory(studentId: number): Promise<void> {
       }
     },
 
-    async updateStudent(id: number, request: StudentRequest): Promise<Student | null> {
+    async updateStudent(id: number, request: StudentRequest): Promise<StudentResponse | null> {
       patchState(store, { saving: true, error: null });
       try {
         const updated = await firstValueFrom(studentApi.update(id, request));
@@ -212,7 +212,7 @@ async loadTrackingHistory(studentId: number): Promise<void> {
       }
     },
 
-    async loadAllActiveStudents(force = false): Promise<Student[]> {
+    async loadAllActiveStudents(force = false): Promise<StudentResponse[]> {
   if (!force && store.allActiveStudentsLoaded()) {
     return store.allActiveStudents();
   }
@@ -223,7 +223,7 @@ async loadTrackingHistory(studentId: number): Promise<void> {
   });
 
   try {
-    const allStudents: Student[] = [];
+    const allStudents: StudentResponse[] = [];
     let page = 0;
     let totalPages = 1;
 
@@ -237,20 +237,14 @@ async loadTrackingHistory(studentId: number): Promise<void> {
       page++;
     } while (page < totalPages);
 
-    const activeStudents = allStudents
-      .filter(student => student.active)
-      .sort((a, b) =>
-        a.lastName.localeCompare(b.lastName, 'fr') ||
-        a.firstName.localeCompare(b.firstName, 'fr')
-      );
 
     patchState(store, {
-      allActiveStudents: activeStudents,
+      allActiveStudents: allStudents,
       allActiveStudentsLoaded: true,
       allActiveStudentsLoading: false
     });
 
-    return activeStudents;
+    return allStudents;
   } catch (error) {
     patchState(store, {
       allActiveStudentsLoading: false,

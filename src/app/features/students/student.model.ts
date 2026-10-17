@@ -1,15 +1,4 @@
-export interface Student {
-  id: number;
-  firstName: string;
-  lastName: string;
-  birthDate: string | null;
-  phone: string | null;
-  parentName: string | null;
-  parentPhone: string | null;
-  active: boolean;
-  groupId: number | null;
-  groupName: string | null;
-}
+
 
 export interface StudentRequest {
   firstName: string;

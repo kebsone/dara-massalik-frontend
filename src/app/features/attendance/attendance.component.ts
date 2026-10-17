@@ -251,7 +251,7 @@ type AttendanceStatus = AttendanceRequest.StatusEnum;
                             rows="2"
                             class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm"
                             [ngModel]="row.toPrepare"
-                            (ngModelChange)="store.setPedagogicalField(row.student.id, 'toPrepare', $event)"
+                            (ngModelChange)="store.setPedagogicalField(row.student.id , 'toPrepare', $event)"
                             [disabled]="store.saving()"
                             placeholder="Leçon à réviser, prochains versets..."
                           ></textarea>
@@ -267,7 +267,7 @@ type AttendanceStatus = AttendanceRequest.StatusEnum;
                             rows="2"
                             class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm"
                             [ngModel]="row.observations"
-                            (ngModelChange)="store.setPedagogicalField(row.student.id, 'observations', $event)"
+                            (ngModelChange)="store.setPedagogicalField(row.student.id , 'observations', $event)"
                             [disabled]="store.saving()"
                             placeholder="Difficultés, progrès, remarques..."
                           ></textarea>

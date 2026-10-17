@@ -8,13 +8,13 @@ import { AttendanceResponse } from '../../core/api/generated/model/attendanceRes
 import { PedagogicalTrackingService } from '../../core/api/generated/api/pedagogicalTracking.service';
 import { PedagogicalTrackingResponse } from '../../core/api/generated/model/pedagogicalTrackingResponse';
 import { StudentStore } from '../students/student.store';
-import { Student } from '../students/student.model';
+import { StudentResponse } from 'src/app/core/api/generated';
 
 type AttendanceStatus = AttendanceRequest.StatusEnum;
 type PedagogicalField = 'surah' | 'completedToday' | 'toPrepare' | 'observations';
 
 export interface SessionRow {
-  student: Student;
+  student: StudentResponse;
   status: AttendanceStatus | null;
   attendanceNote: string;
   attendanceSaved: boolean;
@@ -108,17 +108,17 @@ export const SessionTrackingStore = signalStore(
         const histories = await Promise.all(
           students.map(async student => {
             const history = await firstValueFrom(
-              trackingApi.findStudentHistory({ studentId: student.id })
+              trackingApi.findStudentHistory({ studentId: student.id  as number })
             );
             const match = history.find(item => item.date?.slice(0, 10) === date);
             return [student.id, match] as const;
           })
         );
-        const trackingByStudent = new Map<number, PedagogicalTrackingResponse | undefined>(histories);
+        const trackingByStudent = new Map<number, PedagogicalTrackingResponse | undefined>();
 
         const rows: SessionRow[] = students.map(student => {
-          const attendance = attendanceByStudent.get(student.id);
-          const tracking = trackingByStudent.get(student.id);
+          const attendance = attendanceByStudent.get(student?.id as number);
+          const tracking = trackingByStudent.get(student?.id as number);
 
           return {
             student,
@@ -211,7 +211,7 @@ if (
   try {
     if (!row.attendanceSaved) {
       const attendanceRequest: AttendanceRequest = {
-        studentId: row.student.id,
+        studentId: row.student.id as number,
         date: store.date(),
         status: row.status,
         ...(row.attendanceNote.trim()
@@ -249,7 +249,7 @@ if (
       await firstValueFrom(
         trackingApi.create2({
           pedagogicalTrackingRequest: {
-            studentId: currentRow.student.id,
+            studentId: currentRow.student.id as number  ,
             date: store.date(),
             ...(currentRow.surah.trim()
               ? { surah: currentRow.surah.trim() }
@@ -321,7 +321,7 @@ if (
 
           await firstValueFrom(attendanceApi.create8({
             attendanceRequest: {
-              studentId: row.student.id,
+              studentId: row.student.id as number,
               date: store.date(),
               status: row.status,
               ...(row.attendanceNote.trim()
@@ -343,7 +343,7 @@ if (
         for (const row of trackingToSave) {
           await firstValueFrom(trackingApi.create2({
             pedagogicalTrackingRequest: {
-              studentId: row.student.id,
+              studentId: row.student.id as number,
               date: store.date(),
               ...(row.surah.trim() ? { surah: row.surah.trim() } : {}),
               ...(row.completedToday.trim() ? { completedToday: row.completedToday.trim() } : {}),

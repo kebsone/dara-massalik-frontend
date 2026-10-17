@@ -7,22 +7,23 @@ import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { Student, StudentRequest, StudentStore } from './student.store';
+import {  StudentRequest, StudentStore } from './student.store';
+import { StudentResponse } from 'src/app/core/api/generated';
 
 @Component({
   selector: 'dm-students',
   standalone: true,
-  imports: [RouterLink, DatePipe, FormsModule, ReactiveFormsModule, ButtonModule, CardModule, DialogModule, InputTextModule, SelectModule, TableModule, TagModule, PaginatorModule],
+  imports: [RouterLink, DatePipe, FormsModule, ReactiveFormsModule, ButtonModule, CardModule, DialogModule, InputTextModule, SelectModule, TagModule, PaginatorModule],
   template: `
     <div class="page-enter space-y-6">
       <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <p class="text-sm font-medium text-[var(--brand-primary)]">École coranique</p>
           <h1 class="text-2xl font-bold text-slate-900">Élèves</h1>
-          <p class="mt-1 text-sm text-slate-500">Les dossiers sont maintenant chargés depuis la base de données.</p>
+          <p class="mt-1 text-sm text-slate-500">  Retrouvez et gérez facilement les élèves de votre école coranique.
+</p>
         </div>
         <p-button label="Ajouter un élève" icon="pi pi-plus" (onClick)="openCreateDialog()" />
       </div>
@@ -37,10 +38,9 @@ import { Student, StudentRequest, StudentStore } from './student.store';
       <p-card styleClass="border border-[var(--brand-border)] shadow-sm">
         <div class="mb-5 grid gap-3 md:grid-cols-[minmax(0,1fr)_16rem_auto]">
           <div class="relative">
-            <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input pInputText [value]="search()" (input)="search.set($any($event.target).value)" (keydown.enter)="applyFilters()" placeholder="Nom, prénom, parent ou téléphone..." class="w-full pl-10" aria-label="Rechercher un élève" />
           </div>
-          <p-select [options]="groupFilterOptions()" [ngModel]="groupFilter()" (ngModelChange)="onGroupFilterChange($event)" [ngModelOptions]="{standalone: true}" optionLabel="label" optionValue="value" placeholder="Tous les groupes" styleClass="w-full" />
+          <p-select [options]="groupFilterOptions()" [ngModel]="groupFilter()" (ngModelChange)="onGroupFilterChange($event)" [ngModelOptions]="{standalone: true}" optionLabel="label" optionValue="value" placeholder="Toutes les classes" styleClass="w-full" />
           <p-button label="Rechercher" icon="pi pi-search" (onClick)="applyFilters()" />
         </div>
 
@@ -53,53 +53,78 @@ import { Student, StudentRequest, StudentStore } from './student.store';
           <span><strong class="text-slate-800">{{ store.activeOnPage() }}</strong> actif(s) sur cette page</span>
         </div>
 
-        <p-table [value]="store.students()" [loading]="store.loading()" dataKey="id" responsiveLayout="scroll" styleClass="text-sm">
-          <ng-template #header>
-            <tr><th>Élève</th><th>Groupe</th><th>Date de naissance</th><th>Parent / responsable</th><th>Statut</th><th class="text-right">Actions</th></tr>
-          </ng-template>
-          <ng-template #body let-student>
-            <tr>
-              <td>
-                <a [routerLink]="['/students', student.id]" class="flex items-center gap-3 font-semibold text-slate-800 hover:text-[var(--brand-primary)]">
-                  <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-sm text-[var(--brand-primary)]">{{ student.firstName.charAt(0) }}{{ student.lastName.charAt(0) }}</span>
-                  <span>{{ student.firstName }} {{ student.lastName }}</span>
-                </a>
-              </td>
-              <td class="px-4 py-3">
-  @if (student.groupColor && student.groupName) {
-    <span
-      class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium"
-      [style.background-color]="(student.groupColor || '#2563EB') + '20'"
-      [style.color]="student.groupColor || '#2563EB'"
-    >
-      <span
-        class="h-2 w-2 rounded-full"
-        [style.background-color]="student.groupColor || '#2563EB'"
-      ></span>
-
-      {{ student.groupName }}
-    </span>
-  } @else {
-    <span class="text-sm text-slate-400">
-      Non affecté
-    </span>
-  }
-</td>
-              <td>{{ student.birthDate ? (student.birthDate | date:'dd/MM/yyyy') : '—' }}</td>
-              <td><div>{{ student.parentName || '—' }}</div><div class="text-xs text-slate-400">{{ student.parentPhone || student.phone || '' }}</div></td>
-              <td><p-tag [value]="student.active ? 'Actif' : 'Inactif'" [severity]="student.active ? 'success' : 'secondary'" /></td>
-              <td>
-                <div class="flex justify-end gap-1">
-                  <p-button icon="pi pi-pencil" severity="secondary" [text]="true" [rounded]="true" (onClick)="openEditDialog(student)" aria-label="Modifier l’élève" />
-                  <p-button icon="pi pi-user-minus" severity="danger" [text]="true" [rounded]="true" (onClick)="askDeactivate(student)" aria-label="Désactiver l’élève" />
+        @if (store.loading()) {
+          <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            @for (placeholder of [1, 2, 3]; track placeholder) {
+              <div class="animate-pulse rounded-xl border border-slate-200 p-5">
+                <div class="mb-4 flex items-center gap-3">
+                  <div class="size-12 rounded-full bg-slate-100"></div>
+                  <div class="flex-1 space-y-2"><div class="h-4 w-2/3 rounded bg-slate-100"></div><div class="h-3 w-1/3 rounded bg-slate-100"></div></div>
                 </div>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template #emptymessage>
-            <tr><td colspan="6" class="py-10 text-center text-slate-500">{{ store.loading() ? 'Chargement des élèves…' : 'Aucun élève trouvé.' }}</td></tr>
-          </ng-template>
-        </p-table>
+                <div class="h-3 w-1/2 rounded bg-slate-100"></div>
+              </div>
+            }
+          </div>
+        } @else if (store.students().length === 0) {
+          <div class="rounded-xl border border-dashed border-slate-300 px-4 py-12 text-center">
+            <i class="pi pi-users text-3xl text-slate-300"></i>
+            <p class="mt-3 font-semibold text-slate-700">Aucun élève trouvé</p>
+            <p class="mt-1 text-sm text-slate-500">Essayez de modifier votre recherche ou vos filtres.</p>
+          </div>
+        } @else {
+          <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            @for (student of store.students(); track student.id) {
+              <article class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-border)] hover:shadow-md">
+                <div class="mb-4 flex items-start justify-between gap-3">
+                  <a [routerLink]="['/students', student.id]" class="flex min-w-0 items-center gap-3">
+                    <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-sm font-semibold text-[var(--brand-primary)] ring-1 ring-emerald-100">
+                      {{ student.firstName?.charAt(0) }}{{ student.lastName?.charAt(0) }}
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block truncate font-semibold text-slate-900 group-hover:text-[var(--brand-primary)]">{{ student.firstName }} {{ student.lastName }}</span>
+                      <span class="mt-1 block text-xs text-slate-500">{{ student.birthDate ? (student.birthDate | date:'dd/MM/yyyy') : 'Date de naissance non renseignée' }}</span>
+                    </span>
+                  </a>
+                  <p-tag [value]="student.active ? 'Actif' : 'Inactif'" [severity]="student.active ? 'success' : 'secondary'" />
+                </div>
+
+                <div class="mb-4 flex flex-wrap items-center gap-2">
+                  @if (student.groupName) {
+                    <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium" [style.background-color]="(student.groupColor || '#2563EB') + '20'" [style.color]="student.groupColor || '#2563EB'">
+                      <span class="size-2 rounded-full" [style.background-color]="student.groupColor || '#2563EB'"></span>
+                      {{ student.groupName }}
+                    </span>
+                  } @else {
+                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500">Sans classe</span>
+                  }
+                </div>
+
+                <div class="space-y-2 border-t border-slate-100 pt-3 text-sm">
+                  <div class="flex items-start gap-2 text-slate-600">
+                    <i class="pi pi-users mt-0.5 text-slate-400"></i>
+                    <span class="min-w-0">{{ student.parentName || 'Responsable non renseigné' }}</span>
+                  </div>
+                  @if (student.parentPhone || student.phone) {
+                    <div class="flex items-center gap-2 text-slate-500">
+                      <i class="pi pi-phone text-slate-400"></i>
+                      <span>{{ student.parentPhone || student.phone }}</span>
+                    </div>
+                  }
+                </div>
+
+                <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                  <a [routerLink]="['/students', student.id]" class="inline-flex items-center gap-1 text-sm font-medium text-[var(--brand-primary)] hover:underline">
+                    Voir la fiche <i class="pi pi-arrow-right text-xs"></i>
+                  </a>
+                  <div class="flex gap-1">
+                    <p-button icon="pi pi-pencil" severity="secondary" [text]="true" [rounded]="true" (onClick)="openEditDialog(student)" aria-label="Modifier l’élève" />
+                    <p-button icon="pi pi-user-minus" severity="danger" [text]="true" [rounded]="true" (onClick)="askDeactivate(student)" aria-label="Désactiver l’élève" />
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        }
 
         <p-paginator
           [first]="store.page() * store.pageSize()"
@@ -119,8 +144,7 @@ import { Student, StudentRequest, StudentStore } from './student.store';
           <div><label for="student-phone" class="mb-2 block text-sm font-medium">Téléphone de l’élève</label><input id="student-phone" pInputText formControlName="phone" class="w-full" /></div>
           <div><label for="student-parent-name" class="mb-2 block text-sm font-medium">Parent / responsable</label><input id="student-parent-name" pInputText formControlName="parentName" class="w-full" /></div>
           <div><label for="student-parent-phone" class="mb-2 block text-sm font-medium">Téléphone du responsable</label><input id="student-parent-phone" pInputText formControlName="parentPhone" class="w-full" /></div>
-          <div class="sm:col-span-2"><label for="student-group" class="mb-2 block text-sm font-medium">Groupe</label><p-select inputId="student-group" [options]="formGroupOptions()" optionLabel="label" optionValue="value" formControlName="groupId" placeholder="Sans groupe" class="w-full"  scroll
-           appendTo="body"/></div>
+          <div class="sm:col-span-2"><label for="student-group" class="mb-2 block text-sm font-medium">Groupe</label><p-select inputId="student-group" [options]="formGroupOptions()" optionLabel="label" optionValue="value" formControlName="groupId" placeholder="Sans classe" class="w-full" appendTo="body"/></div>
           @if (store.error(); as error) {
             <div class="sm:col-span-2 rounded-lg bg-red-50 p-3 text-sm text-red-700" role="alert">{{ error }}</div>
           }
@@ -148,16 +172,16 @@ export class StudentsComponent implements OnInit {
   readonly groupFilter = signal<number | null>(null);
   readonly dialogVisible = signal(false);
   readonly deactivationDialogVisible = signal(false);
-  readonly editingStudent = signal<Student | null>(null);
-  readonly pendingDeactivation = signal<Student | null>(null);
+  readonly editingStudent = signal<StudentResponse | null>(null);
+  readonly pendingDeactivation = signal<StudentResponse | null>(null);
 
   readonly groupFilterOptions = computed(() => [
-    { label: 'Tous les groupes', value: null as number | null },
+    { label: 'Toutes les classes', value: null as number | null },
     ...this.store.groups().map(group => ({ label: group.name, value: group.id }))
   ]);
 
   readonly formGroupOptions = computed(() => [
-    { label: 'Sans groupe', value: null as number | null },
+    { label: 'Sans classe', value: null as number | null },
     ...this.store.groups().map(group => ({ label: group.name, value: group.id }))
   ]);
 
@@ -201,7 +225,7 @@ export class StudentsComponent implements OnInit {
     this.dialogVisible.set(true);
   }
 
-  openEditDialog(student: Student): void {
+  openEditDialog(student: StudentResponse): void {
     this.editingStudent.set(student);
     this.form.reset({
       firstName: student.firstName,
@@ -233,7 +257,7 @@ export class StudentsComponent implements OnInit {
 
     const editing = this.editingStudent();
     const result = editing
-      ? await this.store.updateStudent(editing.id, request)
+      ? await this.store.updateStudent(editing.id as number, request)
       : await this.store.createStudent(request);
 
     if (!result) return;
@@ -242,7 +266,7 @@ export class StudentsComponent implements OnInit {
     await this.store.loadStudents(this.search().trim(), this.groupFilter(), page, this.store.pageSize());
   }
 
-  askDeactivate(student: Student): void {
+  askDeactivate(student: StudentResponse  ): void {
     this.pendingDeactivation.set(student);
     this.deactivationDialogVisible.set(true);
   }
@@ -250,7 +274,7 @@ export class StudentsComponent implements OnInit {
   async confirmDeactivate(): Promise<void> {
     const student = this.pendingDeactivation();
     if (!student) return;
-    const succeeded = await this.store.deactivateStudent(student.id);
+    const succeeded = await this.store.deactivateStudent(student.id as number);
     if (!succeeded) return;
     this.deactivationDialogVisible.set(false);
     this.pendingDeactivation.set(null);
