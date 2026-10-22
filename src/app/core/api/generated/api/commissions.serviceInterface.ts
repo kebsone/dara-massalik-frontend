@@ -18,7 +18,7 @@ import { CommissionResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create7RequestParams {
+export interface Create6RequestParams {
     commissionRequest: CommissionRequest;
 }
 
@@ -30,7 +30,7 @@ export interface FindById2RequestParams {
     id: number;
 }
 
-export interface Update4RequestParams {
+export interface Update5RequestParams {
     id: number;
     commissionRequest: CommissionRequest;
 }
@@ -46,7 +46,7 @@ export interface CommissionsServiceInterface {
      * @endpoint post /api/commissions
 * @param requestParameters
      */
-    create7(requestParameters: Create7RequestParams, extraHttpRequestParams?: any): Observable<CommissionResponse>;
+    create6(requestParameters: Create6RequestParams, extraHttpRequestParams?: any): Observable<CommissionResponse>;
 
     /**
      * Deactivate a commission
@@ -77,6 +77,6 @@ export interface CommissionsServiceInterface {
      * @endpoint put /api/commissions/{id}
 * @param requestParameters
      */
-    update4(requestParameters: Update4RequestParams, extraHttpRequestParams?: any): Observable<CommissionResponse>;
+    update5(requestParameters: Update5RequestParams, extraHttpRequestParams?: any): Observable<CommissionResponse>;
 
 }

@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     AttendanceServiceInterface,
-    Create8RequestParams,
+    Create7RequestParams,
     FindByDateRangeRequestParams,
     FindStudentHistory2RequestParams
 } from './attendance.serviceInterface';
@@ -50,13 +50,13 @@ export class AttendanceService extends BaseService implements AttendanceServiceI
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create8(requestParameters: Create8RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AttendanceResponse>;
-    public create8(requestParameters: Create8RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttendanceResponse>>;
-    public create8(requestParameters: Create8RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttendanceResponse>>;
-    public create8(requestParameters: Create8RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create7(requestParameters: Create7RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AttendanceResponse>;
+    public create7(requestParameters: Create7RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttendanceResponse>>;
+    public create7(requestParameters: Create7RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttendanceResponse>>;
+    public create7(requestParameters: Create7RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const attendanceRequest = requestParameters?.attendanceRequest;
         if (attendanceRequest === null || attendanceRequest === undefined) {
-            throw new Error('Required parameter attendanceRequest was null or undefined when calling create8.');
+            throw new Error('Required parameter attendanceRequest was null or undefined when calling create7.');
         }
 
         let localVarHeaders = this.defaultHeaders;

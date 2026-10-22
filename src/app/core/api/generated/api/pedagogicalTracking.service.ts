@@ -27,8 +27,9 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     PedagogicalTrackingServiceInterface,
-    Create2RequestParams,
-    FindStudentHistoryRequestParams
+    FindStudentHistoryRequestParams,
+    SaveOrUpdateRequestParams,
+    Update2RequestParams
 } from './pedagogicalTracking.serviceInterface';
 
 
@@ -43,19 +44,78 @@ export class PedagogicalTrackingService extends BaseService implements Pedagogic
     }
 
     /**
+     * @endpoint get /api/pedagogical-tracking/student/{studentId}
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<PedagogicalTrackingResponse>>;
+    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<PedagogicalTrackingResponse>>>;
+    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<PedagogicalTrackingResponse>>>;
+    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const studentId = requestParameters?.studentId;
+        if (studentId === null || studentId === undefined) {
+            throw new Error('Required parameter studentId was null or undefined when calling findStudentHistory.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearerAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/pedagogical-tracking/student/${this.configuration.encodeParam({name: "studentId", value: studentId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<PedagogicalTrackingResponse>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * @endpoint post /api/pedagogical-tracking
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create2(requestParameters: Create2RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PedagogicalTrackingResponse>;
-    public create2(requestParameters: Create2RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PedagogicalTrackingResponse>>;
-    public create2(requestParameters: Create2RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PedagogicalTrackingResponse>>;
-    public create2(requestParameters: Create2RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public saveOrUpdate(requestParameters: SaveOrUpdateRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PedagogicalTrackingResponse>;
+    public saveOrUpdate(requestParameters: SaveOrUpdateRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PedagogicalTrackingResponse>>;
+    public saveOrUpdate(requestParameters: SaveOrUpdateRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PedagogicalTrackingResponse>>;
+    public saveOrUpdate(requestParameters: SaveOrUpdateRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const pedagogicalTrackingRequest = requestParameters?.pedagogicalTrackingRequest;
         if (pedagogicalTrackingRequest === null || pedagogicalTrackingRequest === undefined) {
-            throw new Error('Required parameter pedagogicalTrackingRequest was null or undefined when calling create2.');
+            throw new Error('Required parameter pedagogicalTrackingRequest was null or undefined when calling saveOrUpdate.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -112,19 +172,23 @@ export class PedagogicalTrackingService extends BaseService implements Pedagogic
     }
 
     /**
-     * @endpoint get /api/pedagogical-tracking/student/{studentId}
+     * @endpoint put /api/pedagogical-tracking/{id}
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<PedagogicalTrackingResponse>>;
-    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<PedagogicalTrackingResponse>>>;
-    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<PedagogicalTrackingResponse>>>;
-    public findStudentHistory(requestParameters: FindStudentHistoryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const studentId = requestParameters?.studentId;
-        if (studentId === null || studentId === undefined) {
-            throw new Error('Required parameter studentId was null or undefined when calling findStudentHistory.');
+    public update2(requestParameters: Update2RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PedagogicalTrackingResponse>;
+    public update2(requestParameters: Update2RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PedagogicalTrackingResponse>>;
+    public update2(requestParameters: Update2RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PedagogicalTrackingResponse>>;
+    public update2(requestParameters: Update2RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling update2.');
+        }
+        const pedagogicalTrackingRequest = requestParameters?.pedagogicalTrackingRequest;
+        if (pedagogicalTrackingRequest === null || pedagogicalTrackingRequest === undefined) {
+            throw new Error('Required parameter pedagogicalTrackingRequest was null or undefined when calling update2.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -144,6 +208,15 @@ export class PedagogicalTrackingService extends BaseService implements Pedagogic
         const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -155,11 +228,12 @@ export class PedagogicalTrackingService extends BaseService implements Pedagogic
             }
         }
 
-        let localVarPath = `/api/pedagogical-tracking/student/${this.configuration.encodeParam({name: "studentId", value: studentId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        let localVarPath = `/api/pedagogical-tracking/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<PedagogicalTrackingResponse>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<PedagogicalTrackingResponse>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: pedagogicalTrackingRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

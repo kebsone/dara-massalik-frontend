@@ -22,7 +22,7 @@ export interface DeleteRequestParams {
     id: number;
 }
 
-export interface Create9RequestParams {
+export interface Create8RequestParams {
     activityRequest: ActivityRequest;
 }
 
@@ -34,7 +34,7 @@ export interface FindById3RequestParams {
     id: number;
 }
 
-export interface Update5RequestParams {
+export interface Update6RequestParams {
     id: number;
     activityRequest: ActivityRequest;
 }
@@ -58,7 +58,7 @@ export interface ActivitiesServiceInterface {
      * @endpoint post /api/activities
 * @param requestParameters
      */
-    create9(requestParameters: Create9RequestParams, extraHttpRequestParams?: any): Observable<ActivityResponse>;
+    create8(requestParameters: Create8RequestParams, extraHttpRequestParams?: any): Observable<ActivityResponse>;
 
     /**
      * List Dahira activities
@@ -82,6 +82,6 @@ export interface ActivitiesServiceInterface {
      * @endpoint put /api/activities/{id}
 * @param requestParameters
      */
-    update5(requestParameters: Update5RequestParams, extraHttpRequestParams?: any): Observable<ActivityResponse>;
+    update6(requestParameters: Update6RequestParams, extraHttpRequestParams?: any): Observable<ActivityResponse>;
 
 }

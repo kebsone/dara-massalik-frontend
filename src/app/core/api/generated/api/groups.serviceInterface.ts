@@ -18,11 +18,11 @@ import { GroupResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create6RequestParams {
+export interface Create5RequestParams {
     groupRequest: GroupRequest;
 }
 
-export interface Update3RequestParams {
+export interface Update4RequestParams {
     id: number;
     groupRequest: GroupRequest;
 }
@@ -38,7 +38,7 @@ export interface GroupsServiceInterface {
      * @endpoint post /api/groups
 * @param requestParameters
      */
-    create6(requestParameters: Create6RequestParams, extraHttpRequestParams?: any): Observable<GroupResponse>;
+    create5(requestParameters: Create5RequestParams, extraHttpRequestParams?: any): Observable<GroupResponse>;
 
     /**
      * 
@@ -53,6 +53,6 @@ export interface GroupsServiceInterface {
      * @endpoint put /api/groups/{id}
 * @param requestParameters
      */
-    update3(requestParameters: Update3RequestParams, extraHttpRequestParams?: any): Observable<GroupResponse>;
+    update4(requestParameters: Update4RequestParams, extraHttpRequestParams?: any): Observable<GroupResponse>;
 
 }

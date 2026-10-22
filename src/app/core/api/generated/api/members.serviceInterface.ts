@@ -18,7 +18,7 @@ import { MemberResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create5RequestParams {
+export interface Create4RequestParams {
     memberRequest: MemberRequest;
 }
 
@@ -34,7 +34,7 @@ export interface FindById1RequestParams {
     id: number;
 }
 
-export interface Update2RequestParams {
+export interface Update3RequestParams {
     id: number;
     memberRequest: MemberRequest;
 }
@@ -50,7 +50,7 @@ export interface MembersServiceInterface {
      * @endpoint post /api/members
 * @param requestParameters
      */
-    create5(requestParameters: Create5RequestParams, extraHttpRequestParams?: any): Observable<MemberResponse>;
+    create4(requestParameters: Create4RequestParams, extraHttpRequestParams?: any): Observable<MemberResponse>;
 
     /**
      * Deactivate a Dahira member
@@ -82,6 +82,6 @@ export interface MembersServiceInterface {
      * @endpoint put /api/members/{id}
 * @param requestParameters
      */
-    update2(requestParameters: Update2RequestParams, extraHttpRequestParams?: any): Observable<MemberResponse>;
+    update3(requestParameters: Update3RequestParams, extraHttpRequestParams?: any): Observable<MemberResponse>;
 
 }

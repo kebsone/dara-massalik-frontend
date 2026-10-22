@@ -18,7 +18,7 @@ import { OrderResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create4RequestParams {
+export interface Create3RequestParams {
     createOrderRequest: CreateOrderRequest;
 }
 
@@ -37,7 +37,7 @@ export interface OrdersServiceInterface {
      * @endpoint post /api/orders
 * @param requestParameters
      */
-    create4(requestParameters: Create4RequestParams, extraHttpRequestParams?: any): Observable<OrderResponse>;
+    create3(requestParameters: Create3RequestParams, extraHttpRequestParams?: any): Observable<OrderResponse>;
 
     /**
      * List the current user\&#39;s orders

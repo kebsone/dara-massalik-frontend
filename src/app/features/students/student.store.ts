@@ -9,6 +9,8 @@ import { PedagogicalTrackingResponse, StudentResponse } from 'src/app/core/api/g
 import { PedagogicalTrackingService } from 'src/app/core/api/generated/api/pedagogicalTracking.service';
 import { StudentTrackingHistoryResponse } from 'src/app/core/api/generated';
 import { StudentTrackingHistoryService } from 'src/app/core/api/generated/api/studentTrackingHistory.service';
+
+import { StudentsService } from 'src/app/core/api/generated/api/students.service';
 export type { SchoolGroup,   StudentRequest } from './student.model';
 
 interface StudentState {
@@ -32,7 +34,12 @@ interface StudentState {
   trackingHistory: StudentTrackingHistoryResponse['history'];
    trackingLoading :boolean;
  trackingError :string | null;
-
+ photoUrl: string | null;
+photoStudentId: number | null;
+photoLoading: boolean;
+photoSaving: boolean;
+photoError: string | null;
+photoUrls: Record<number, string>;
 }
 
 const initialState: StudentState = {
@@ -55,7 +62,13 @@ const initialState: StudentState = {
   totalPages: 0,
     trackingHistory:[],
    trackingLoading :false,
- trackingError :null
+ trackingError :null,
+ photoUrl: null,
+photoStudentId: null,
+photoLoading: false,
+photoSaving: false,
+photoError: null,
+photoUrls: {}
 };
 
 function apiError(error: unknown, fallback: string): string {
@@ -77,44 +90,105 @@ export const StudentStore = signalStore(
     groupCount: computed(() => groups().length),
     hasStudents: computed(() => totalElements() > 0)
   })),
-  withMethods((store, studentApi = inject(StudentApiService), groupApi = inject(GroupApiService),  trackingApi = inject(StudentTrackingHistoryService)) => ({
-    async loadStudents(
-      search = store.search(),
-      groupId = store.groupFilter(),
-      page = store.page(),
-      size = store.pageSize()
-    ): Promise<void> {
-      patchState(store, {
-        loading: true,
-        error: null,
-        search,
-        groupFilter: groupId,
-        page,
-        pageSize: size
-      });
-      try {
-        const response: PageResponse<StudentResponse> = await firstValueFrom(
-          studentApi.list({ search, groupId, page, size })
-        );
-        console.log('Loaded students:', response);
-        patchState(store, {
-          students: response.content ?? [],
-          totalElements: response.totalElements ?? 0,
-          totalPages: response.totalPages ?? 0,
-          page: response.number ?? page,
-          pageSize: response.size ?? size,
-          loading: false
-        });
-      } catch (error) {
-        patchState(store, {
-          loading: false,
-          students: [],
-          totalElements: 0,
-          totalPages: 0,
-          error: apiError(error, 'Impossible de charger les élèves.')
-        });
+  withMethods((store, studentApi = inject(StudentApiService), groupApi = inject(GroupApiService), 
+  
+  trackingApi = inject(StudentTrackingHistoryService), studentService = inject(StudentsService)) => ({
+    
+async loadStudents(
+  search = store.search(),
+  groupId = store.groupFilter(),
+  page = store.page(),
+  size = store.pageSize()
+): Promise<void> {
+  patchState(store, {
+    loading: true,
+    error: null,
+    search,
+    groupFilter: groupId,
+    page,
+    pageSize: size
+  });
+
+  try {
+    const response: PageResponse<StudentResponse> = await firstValueFrom(
+      studentApi.list({ search, groupId, page, size })
+    );
+
+    const students = response.content ?? [];
+    const studentIds = new Set(
+      students
+        .map(student => student.id)
+        .filter((id): id is number => id != null)
+    );
+
+    // Conserver les URL des élèves présents sur la page.
+    const existingUrls = store.photoUrls();
+    const nextUrls: Record<number, string> = {};
+
+    for (const [id, url] of Object.entries(existingUrls)) {
+      if (studentIds.has(Number(id))) {
+        nextUrls[Number(id)] = url;
+      } else {
+        URL.revokeObjectURL(url);
       }
-    },
+    }
+
+    patchState(store, {
+      students,
+      photoUrls: nextUrls,
+      totalElements: response.totalElements ?? 0,
+      totalPages: response.totalPages ?? 0,
+      page: response.number ?? page,
+      pageSize: response.size ?? size,
+      loading: false
+    });
+
+    // Télécharger uniquement les photos présentes sur cette page.
+    const studentsWithPhoto = students.filter(
+      student =>
+        student.id != null &&
+        !!student.photoUrl &&
+        !nextUrls[student.id]
+    );
+
+    await Promise.all(
+      studentsWithPhoto.map(async student => {
+        const id = student.id!;
+
+        try {
+          const blob = await firstValueFrom(
+            studentService.getStudentPhoto({ id })
+          );
+
+          // Ne pas conserver une réponse si la page a changé.
+          if (!store.students().some(current => current.id === id)) {
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+
+          patchState(store, {
+            photoUrls: {
+              ...store.photoUrls(),
+              [id]: url
+            }
+          });
+        } catch {
+          // En cas d'erreur, les initiales resteront affichées.
+        }
+      })
+    );
+  } catch (error) {
+    patchState(store, {
+      loading: false,
+      students: [],
+      totalElements: 0,
+      totalPages: 0,
+      error: apiError(error, 'Impossible de charger les élèves.')
+    });
+  }
+},
+
 async loadTrackingHistory(studentId: number): Promise<void> {
   patchState(store, {
     trackingLoading: true,
@@ -211,6 +285,154 @@ async loadTrackingHistory(studentId: number): Promise<void> {
         return false;
       }
     },
+
+clearPhoto(): void {
+  const url = store.photoUrl();
+
+  if (url) {
+    URL.revokeObjectURL(url);
+  }
+
+  patchState(store, {
+    photoUrl: null,
+    photoStudentId: null,
+    photoLoading: false,
+    photoSaving: false,
+    photoError: null
+  });
+},
+
+async loadPhoto(id: number): Promise<void> {
+  const previousUrl = store.photoUrl();
+
+  if (previousUrl) {
+    URL.revokeObjectURL(previousUrl);
+  }
+
+  patchState(store, {
+    photoUrl: null,
+    photoStudentId: id,
+    photoLoading: true,
+    photoError: null
+  });
+
+  try {
+    const blob = await firstValueFrom(
+      studentService.getStudentPhoto({ id })
+    );
+
+    if (store.photoStudentId() !== id) {
+      return;
+    }
+
+    patchState(store, {
+      photoUrl: URL.createObjectURL(blob),
+      photoLoading: false,
+      photoError: null
+    });
+  } catch (error) {
+    if (store.photoStudentId() !== id) {
+      return;
+    }
+
+    patchState(store, {
+      photoUrl: null,
+      photoLoading: false,
+      photoError: apiError(error, 'Impossible de charger la photo.')
+    });
+  }
+},
+
+async uploadPhoto(id: number, file: File): Promise<boolean> {
+  patchState(store, {
+    photoSaving: true,
+    photoError: null
+  });
+
+  try {
+    const updated = await firstValueFrom(
+      studentService.uploadStudentPhoto({ id, file })
+    );
+
+    patchState(store, {
+      selectedStudent:
+        store.selectedStudent()?.id === id
+          ? updated
+          : store.selectedStudent(),
+      students: store.students().map(student =>
+        student.id === id ? updated : student
+      )
+    });
+
+    const previousUrl = store.photoUrl();
+    if (previousUrl) {
+      URL.revokeObjectURL(previousUrl);
+    }
+
+    patchState(store, {
+      photoUrl: null,
+      photoStudentId: id,
+      photoLoading: true
+    });
+
+    const blob = await firstValueFrom(
+      studentService.getStudentPhoto({ id })
+    );
+
+    if (store.photoStudentId() === id) {
+      patchState(store, {
+        photoUrl: URL.createObjectURL(blob),
+        photoLoading: false,
+        photoSaving: false,
+        photoError: null
+      });
+    }
+
+    return true;
+  } catch (error) {
+    patchState(store, {
+      photoSaving: false,
+      photoLoading: false,
+      photoError: apiError(error, "Impossible d'enregistrer la photo.")
+    });
+    return false;
+  }
+},
+
+async deletePhoto(id: number): Promise<boolean> {
+  patchState(store, {
+    photoSaving: true,
+    photoError: null
+  });
+
+  try {
+    await firstValueFrom(
+      studentService.deleteStudentPhoto({ id })
+    );
+
+    const previousUrl = store.photoUrl();
+    if (previousUrl) {
+      URL.revokeObjectURL(previousUrl);
+    }
+
+   patchState(store, {
+  photoUrl: null,
+  photoStudentId: id,
+  photoSaving: false,
+  photoLoading: false,
+  photoError: null
+});
+
+    return true;
+  } catch (error) {
+    patchState(store, {
+      photoSaving: false,
+      photoError: apiError(error, 'Impossible de supprimer la photo.')
+    });
+    return false;
+  }
+},
+
 
     async loadAllActiveStudents(force = false): Promise<StudentResponse[]> {
   if (!force && store.allActiveStudentsLoaded()) {

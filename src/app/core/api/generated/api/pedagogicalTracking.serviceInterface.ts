@@ -18,12 +18,17 @@ import { PedagogicalTrackingResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create2RequestParams {
+export interface FindStudentHistoryRequestParams {
+    studentId: number;
+}
+
+export interface SaveOrUpdateRequestParams {
     pedagogicalTrackingRequest: PedagogicalTrackingRequest;
 }
 
-export interface FindStudentHistoryRequestParams {
-    studentId: number;
+export interface Update2RequestParams {
+    id: number;
+    pedagogicalTrackingRequest: PedagogicalTrackingRequest;
 }
 
 
@@ -34,17 +39,25 @@ export interface PedagogicalTrackingServiceInterface {
     /**
      * 
      * 
-     * @endpoint post /api/pedagogical-tracking
-* @param requestParameters
-     */
-    create2(requestParameters: Create2RequestParams, extraHttpRequestParams?: any): Observable<PedagogicalTrackingResponse>;
-
-    /**
-     * 
-     * 
      * @endpoint get /api/pedagogical-tracking/student/{studentId}
 * @param requestParameters
      */
     findStudentHistory(requestParameters: FindStudentHistoryRequestParams, extraHttpRequestParams?: any): Observable<Array<PedagogicalTrackingResponse>>;
+
+    /**
+     * 
+     * 
+     * @endpoint post /api/pedagogical-tracking
+* @param requestParameters
+     */
+    saveOrUpdate(requestParameters: SaveOrUpdateRequestParams, extraHttpRequestParams?: any): Observable<PedagogicalTrackingResponse>;
+
+    /**
+     * 
+     * 
+     * @endpoint put /api/pedagogical-tracking/{id}
+* @param requestParameters
+     */
+    update2(requestParameters: Update2RequestParams, extraHttpRequestParams?: any): Observable<PedagogicalTrackingResponse>;
 
 }

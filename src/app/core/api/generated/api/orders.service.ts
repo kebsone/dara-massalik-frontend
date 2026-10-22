@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     OrdersServiceInterface,
-    Create4RequestParams,
+    Create3RequestParams,
     FindMineByIdRequestParams
 } from './orders.serviceInterface';
 
@@ -50,13 +50,13 @@ export class OrdersService extends BaseService implements OrdersServiceInterface
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create4(requestParameters: Create4RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderResponse>;
-    public create4(requestParameters: Create4RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderResponse>>;
-    public create4(requestParameters: Create4RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderResponse>>;
-    public create4(requestParameters: Create4RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create3(requestParameters: Create3RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderResponse>;
+    public create3(requestParameters: Create3RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderResponse>>;
+    public create3(requestParameters: Create3RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderResponse>>;
+    public create3(requestParameters: Create3RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const createOrderRequest = requestParameters?.createOrderRequest;
         if (createOrderRequest === null || createOrderRequest === undefined) {
-            throw new Error('Required parameter createOrderRequest was null or undefined when calling create4.');
+            throw new Error('Required parameter createOrderRequest was null or undefined when calling create3.');
         }
 
         let localVarHeaders = this.defaultHeaders;

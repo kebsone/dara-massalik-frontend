@@ -27,7 +27,15 @@ export interface DeactivateStudentRequestParams {
     id: number;
 }
 
+export interface DeleteStudentPhotoRequestParams {
+    id: number;
+}
+
 export interface GetStudentByIdRequestParams {
+    id: number;
+}
+
+export interface GetStudentPhotoRequestParams {
     id: number;
 }
 
@@ -42,6 +50,11 @@ export interface ListStudentsRequestParams {
 export interface UpdateStudentRequestParams {
     id: number;
     studentRequest: StudentRequest;
+}
+
+export interface UploadStudentPhotoRequestParams {
+    id: number;
+    file: Blob;
 }
 
 
@@ -66,12 +79,28 @@ export interface StudentsServiceInterface {
     deactivateStudent(requestParameters: DeactivateStudentRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Delete a student photo
+     * 
+     * @endpoint delete /api/students/{id}/photo
+* @param requestParameters
+     */
+    deleteStudentPhoto(requestParameters: DeleteStudentPhotoRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
      * Get a student by ID
      * 
      * @endpoint get /api/students/{id}
 * @param requestParameters
      */
     getStudentById(requestParameters: GetStudentByIdRequestParams, extraHttpRequestParams?: any): Observable<StudentResponse>;
+
+    /**
+     * Get a student photo
+     * 
+     * @endpoint get /api/students/{id}/photo
+* @param requestParameters
+     */
+    getStudentPhoto(requestParameters: GetStudentPhotoRequestParams, extraHttpRequestParams?: any): Observable<Blob>;
 
     /**
      * List active students
@@ -88,5 +117,13 @@ export interface StudentsServiceInterface {
 * @param requestParameters
      */
     updateStudent(requestParameters: UpdateStudentRequestParams, extraHttpRequestParams?: any): Observable<StudentResponse>;
+
+    /**
+     * Upload or replace a student photo
+     * 
+     * @endpoint post /api/students/{id}/photo
+* @param requestParameters
+     */
+    uploadStudentPhoto(requestParameters: UploadStudentPhotoRequestParams, extraHttpRequestParams?: any): Observable<StudentResponse>;
 
 }

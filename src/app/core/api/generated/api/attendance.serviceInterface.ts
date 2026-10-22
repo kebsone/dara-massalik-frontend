@@ -18,7 +18,7 @@ import { AttendanceResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create8RequestParams {
+export interface Create7RequestParams {
     attendanceRequest: AttendanceRequest;
 }
 
@@ -42,7 +42,7 @@ export interface AttendanceServiceInterface {
      * @endpoint post /api/attendance
 * @param requestParameters
      */
-    create8(requestParameters: Create8RequestParams, extraHttpRequestParams?: any): Observable<AttendanceResponse>;
+    create7(requestParameters: Create7RequestParams, extraHttpRequestParams?: any): Observable<AttendanceResponse>;
 
     /**
      * 

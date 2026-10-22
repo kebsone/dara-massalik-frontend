@@ -18,7 +18,7 @@ import { PaymentResponse } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
-export interface Create3RequestParams {
+export interface Create2RequestParams {
     paymentRequest: PaymentRequest;
 }
 
@@ -42,7 +42,7 @@ export interface PaymentsServiceInterface {
      * @endpoint post /api/payments
 * @param requestParameters
      */
-    create3(requestParameters: Create3RequestParams, extraHttpRequestParams?: any): Observable<PaymentResponse>;
+    create2(requestParameters: Create2RequestParams, extraHttpRequestParams?: any): Observable<PaymentResponse>;
 
     /**
      * 

@@ -28,7 +28,7 @@ export interface DeleteAddressRequestParams {
     id: number;
 }
 
-export interface Update6RequestParams {
+export interface Update7RequestParams {
     userProfileRequest: UserProfileRequest;
 }
 
@@ -78,7 +78,7 @@ export interface MyAccountServiceInterface {
      * @endpoint patch /api/me
 * @param requestParameters
      */
-    update6(requestParameters: Update6RequestParams, extraHttpRequestParams?: any): Observable<UserProfileResponse>;
+    update7(requestParameters: Update7RequestParams, extraHttpRequestParams?: any): Observable<UserProfileResponse>;
 
     /**
      * Update a delivery address

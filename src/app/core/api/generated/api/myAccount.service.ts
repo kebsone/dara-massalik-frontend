@@ -33,7 +33,7 @@ import {
     MyAccountServiceInterface,
     CreateAddressRequestParams,
     DeleteAddressRequestParams,
-    Update6RequestParams,
+    Update7RequestParams,
     UpdateAddressRequestParams
 } from './myAccount.serviceInterface';
 
@@ -295,13 +295,13 @@ export class MyAccountService extends BaseService implements MyAccountServiceInt
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public update6(requestParameters: Update6RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserProfileResponse>;
-    public update6(requestParameters: Update6RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserProfileResponse>>;
-    public update6(requestParameters: Update6RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserProfileResponse>>;
-    public update6(requestParameters: Update6RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public update7(requestParameters: Update7RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserProfileResponse>;
+    public update7(requestParameters: Update7RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserProfileResponse>>;
+    public update7(requestParameters: Update7RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserProfileResponse>>;
+    public update7(requestParameters: Update7RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const userProfileRequest = requestParameters?.userProfileRequest;
         if (userProfileRequest === null || userProfileRequest === undefined) {
-            throw new Error('Required parameter userProfileRequest was null or undefined when calling update6.');
+            throw new Error('Required parameter userProfileRequest was null or undefined when calling update7.');
         }
 
         let localVarHeaders = this.defaultHeaders;

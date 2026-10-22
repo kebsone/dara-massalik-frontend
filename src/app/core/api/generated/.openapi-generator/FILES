@@ -27,6 +27,8 @@ api/payments.service.ts
 api/payments.serviceInterface.ts
 api/pedagogicalTracking.service.ts
 api/pedagogicalTracking.serviceInterface.ts
+api/sessionTracking.service.ts
+api/sessionTracking.serviceInterface.ts
 api/shop.service.ts
 api/shop.serviceInterface.ts
 api/studentTrackingHistory.service.ts
@@ -45,6 +47,7 @@ model/activityRequest.ts
 model/activityResponse.ts
 model/addressRequest.ts
 model/addressResponse.ts
+model/attendanceData.ts
 model/attendanceRequest.ts
 model/attendanceResponse.ts
 model/authResponse.ts
@@ -64,10 +67,12 @@ model/models.ts
 model/orderItemRequest.ts
 model/orderItemResponse.ts
 model/orderResponse.ts
+model/pageSessionTrackingRowResponse.ts
 model/pageStudentResponse.ts
 model/pageableObject.ts
 model/paymentRequest.ts
 model/paymentResponse.ts
+model/pedagogicalTrackingData.ts
 model/pedagogicalTrackingRequest.ts
 model/pedagogicalTrackingResponse.ts
 model/productRequest.ts
@@ -76,6 +81,7 @@ model/refreshRequest.ts
 model/requestOtpRequest.ts
 model/requestOtpResponse.ts
 model/rolePermissionUpdateRequest.ts
+model/sessionTrackingRowResponse.ts
 model/sortObject.ts
 model/studentRequest.ts
 model/studentResponse.ts

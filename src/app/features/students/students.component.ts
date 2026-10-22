@@ -77,9 +77,21 @@ import { StudentResponse } from 'src/app/core/api/generated';
               <article class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-border)] hover:shadow-md">
                 <div class="mb-4 flex items-start justify-between gap-3">
                   <a [routerLink]="['/students', student.id]" class="flex min-w-0 items-center gap-3">
-                    <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-sm font-semibold text-[var(--brand-primary)] ring-1 ring-emerald-100">
-                      {{ student.firstName?.charAt(0) }}{{ student.lastName?.charAt(0) }}
-                    </span>
+                   
+<div
+  class="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-emerald-50 font-semibold text-emerald-700"
+>
+  @if (store.photoUrls()[student.id!]; as photoUrl) {
+    <img
+      [src]="photoUrl"
+      [alt]="'Photo de ' + student.firstName + ' ' + student.lastName"
+      class="size-full object-cover"
+    />
+  } @else {
+    {{ student.firstName?.charAt(0) }}{{ student.lastName?.charAt(0) }}
+  }
+</div>
+
                     <span class="min-w-0">
                       <span class="block truncate font-semibold text-slate-900 group-hover:text-[var(--brand-primary)]">{{ student.firstName }} {{ student.lastName }}</span>
                       <span class="mt-1 block text-xs text-slate-500">{{ student.birthDate ? (student.birthDate | date:'dd/MM/yyyy') : 'Date de naissance non renseignée' }}</span>

@@ -27,11 +27,11 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     MembersServiceInterface,
-    Create5RequestParams,
+    Create4RequestParams,
     Deactivate1RequestParams,
     FindAll1RequestParams,
     FindById1RequestParams,
-    Update2RequestParams
+    Update3RequestParams
 } from './members.serviceInterface';
 
 
@@ -53,13 +53,13 @@ export class MembersService extends BaseService implements MembersServiceInterfa
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create5(requestParameters: Create5RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MemberResponse>;
-    public create5(requestParameters: Create5RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MemberResponse>>;
-    public create5(requestParameters: Create5RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MemberResponse>>;
-    public create5(requestParameters: Create5RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create4(requestParameters: Create4RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MemberResponse>;
+    public create4(requestParameters: Create4RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MemberResponse>>;
+    public create4(requestParameters: Create4RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MemberResponse>>;
+    public create4(requestParameters: Create4RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const memberRequest = requestParameters?.memberRequest;
         if (memberRequest === null || memberRequest === undefined) {
-            throw new Error('Required parameter memberRequest was null or undefined when calling create5.');
+            throw new Error('Required parameter memberRequest was null or undefined when calling create4.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -311,17 +311,17 @@ export class MembersService extends BaseService implements MembersServiceInterfa
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public update2(requestParameters: Update2RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MemberResponse>;
-    public update2(requestParameters: Update2RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MemberResponse>>;
-    public update2(requestParameters: Update2RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MemberResponse>>;
-    public update2(requestParameters: Update2RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public update3(requestParameters: Update3RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MemberResponse>;
+    public update3(requestParameters: Update3RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MemberResponse>>;
+    public update3(requestParameters: Update3RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MemberResponse>>;
+    public update3(requestParameters: Update3RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update2.');
+            throw new Error('Required parameter id was null or undefined when calling update3.');
         }
         const memberRequest = requestParameters?.memberRequest;
         if (memberRequest === null || memberRequest === undefined) {
-            throw new Error('Required parameter memberRequest was null or undefined when calling update2.');
+            throw new Error('Required parameter memberRequest was null or undefined when calling update3.');
         }
 
         let localVarHeaders = this.defaultHeaders;

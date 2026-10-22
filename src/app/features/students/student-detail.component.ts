@@ -38,9 +38,64 @@ import { StudentStore } from './student.store';
           <div class="h-2 bg-[var(--brand-primary)]"></div>
           <div class="p-5 sm:p-7">
             <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div class="flex size-20 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-2xl font-bold text-[var(--brand-primary)] ring-1 ring-emerald-100">
-                {{ currentStudent.firstName?.charAt(0) }}{{ currentStudent.lastName?.charAt(0) }}
-              </div>
+             
+<div class="flex flex-col items-center gap-3 sm:items-start">
+  <div class="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-emerald-50 text-2xl font-bold text-[var(--brand-primary)] ring-1 ring-emerald-100">
+    @if (photoUrl()) {
+      <img
+        [src]="photoUrl()!"
+        [alt]="'Photo de ' + currentStudent.firstName + ' ' + currentStudent.lastName"
+        class="size-full object-cover"
+      />
+    } @else {
+      {{ currentStudent.firstName?.charAt(0) }}{{ currentStudent.lastName?.charAt(0) }}
+    }
+
+    @if (photoLoading()) {
+      <div class="absolute inset-0 flex items-center justify-center bg-white/75">
+        <i class="pi pi-spin pi-spinner text-xl"></i>
+      </div>
+    }
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-2 sm:justify-start">
+    <label
+      class="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-[var(--brand-primary)] px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+      [class.pointer-events-none]="photoSaving()"
+      [class.opacity-50]="photoSaving()"
+    >
+      <i [class]="photoSaving() ? 'pi pi-spin pi-spinner' : 'pi pi-camera'"></i>
+      {{ photoSaving() ? 'Enregistrement…' : (photoUrl() ? 'Changer la photo' : 'Ajouter une photo') }}
+
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        class="hidden"
+        [disabled]="photoSaving()"
+        (change)="onPhotoSelected($event)"
+      />
+    </label>
+
+    @if (photoUrl()) {
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+        [disabled]="photoSaving()"
+        (click)="deletePhoto()"
+      >
+        <i class="pi pi-trash"></i>
+        Supprimer
+      </button>
+    }
+  </div>
+
+  @if (photoError()) {
+    <p class="max-w-xs text-sm text-red-600" role="alert">
+      {{ photoError() }}
+    </p>
+  }
+</div>
+
               <div class="min-w-0 flex-1">
                 <p class="text-sm font-medium text-[var(--brand-primary)]">École coranique · Dossier élève</p>
                 <h1 class="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">{{ currentStudent.firstName }} {{ currentStudent.lastName }}</h1>
@@ -242,6 +297,10 @@ export class StudentDetailComponent implements OnInit {
   readonly trackingLoading = this.store.trackingLoading;
   readonly trackingError = this.store.trackingError;
   readonly activeTab = signal('informations');
+  readonly photoUrl = this.store.photoUrl;
+readonly photoLoading = this.store.photoLoading;
+readonly photoSaving = this.store.photoSaving;
+readonly photoError = this.store.photoError;
   readonly pedagogicalEntries = computed(() =>
     (this.store.trackingHistory() ?? []).filter(item => item.pedagogicalTracking != null)
   );
@@ -273,10 +332,44 @@ export class StudentDetailComponent implements OnInit {
         if (Number.isInteger(id) && id > 0) {
           void this.store.loadStudent(id);
           void this.store.loadTrackingHistory(id);
+          this.store.clearPhoto();
+          void this.store.loadPhoto(id);
         }
       });
   }
+async onPhotoSelected(event: Event): Promise<void> {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  const studentId = this.student()?.id;
 
+  // Permet de sélectionner à nouveau le même fichier
+  input.value = '';
+
+  if (!file || studentId == null) {
+    return;
+  }
+
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+  if (!allowedTypes.includes(file.type)) {
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    return;
+  }
+
+  await this.store.uploadPhoto(studentId, file);
+}
+
+async deletePhoto(): Promise<void> {
+
+  const studentId = this.student()?.id;
+
+if (studentId != null && confirm('Supprimer la photo de cet élève ?')) {
+  await this.store.deletePhoto(studentId);
+}
+}
   retryHistory(): void {
     const studentId = this.student()?.id;
     if (studentId != null) {

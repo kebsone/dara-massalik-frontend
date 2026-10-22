@@ -21,5 +21,6 @@ export interface StudentResponse {
     groupId?: number;
     groupName?: string;
     groupColor?: string;
+    photoUrl?: string;
 }
 

@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     PaymentsServiceInterface,
-    Create3RequestParams,
+    Create2RequestParams,
     FindByMonthRequestParams,
     FindStudentHistory1RequestParams
 } from './payments.serviceInterface';
@@ -50,13 +50,13 @@ export class PaymentsService extends BaseService implements PaymentsServiceInter
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create3(requestParameters: Create3RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaymentResponse>;
-    public create3(requestParameters: Create3RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaymentResponse>>;
-    public create3(requestParameters: Create3RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaymentResponse>>;
-    public create3(requestParameters: Create3RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create2(requestParameters: Create2RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaymentResponse>;
+    public create2(requestParameters: Create2RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaymentResponse>>;
+    public create2(requestParameters: Create2RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaymentResponse>>;
+    public create2(requestParameters: Create2RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const paymentRequest = requestParameters?.paymentRequest;
         if (paymentRequest === null || paymentRequest === undefined) {
-            throw new Error('Required parameter paymentRequest was null or undefined when calling create3.');
+            throw new Error('Required parameter paymentRequest was null or undefined when calling create2.');
         }
 
         let localVarHeaders = this.defaultHeaders;

@@ -28,10 +28,10 @@ import { BaseService } from '../api.base.service';
 import {
     ActivitiesServiceInterface,
     DeleteRequestParams,
-    Create9RequestParams,
+    Create8RequestParams,
     FindAll4RequestParams,
     FindById3RequestParams,
-    Update5RequestParams
+    Update6RequestParams
 } from './activities.serviceInterface';
 
 
@@ -112,13 +112,13 @@ export class ActivitiesService extends BaseService implements ActivitiesServiceI
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create9(requestParameters: Create9RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ActivityResponse>;
-    public create9(requestParameters: Create9RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ActivityResponse>>;
-    public create9(requestParameters: Create9RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ActivityResponse>>;
-    public create9(requestParameters: Create9RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create8(requestParameters: Create8RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ActivityResponse>;
+    public create8(requestParameters: Create8RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ActivityResponse>>;
+    public create8(requestParameters: Create8RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ActivityResponse>>;
+    public create8(requestParameters: Create8RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const activityRequest = requestParameters?.activityRequest;
         if (activityRequest === null || activityRequest === undefined) {
-            throw new Error('Required parameter activityRequest was null or undefined when calling create9.');
+            throw new Error('Required parameter activityRequest was null or undefined when calling create8.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -311,17 +311,17 @@ export class ActivitiesService extends BaseService implements ActivitiesServiceI
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public update5(requestParameters: Update5RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ActivityResponse>;
-    public update5(requestParameters: Update5RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ActivityResponse>>;
-    public update5(requestParameters: Update5RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ActivityResponse>>;
-    public update5(requestParameters: Update5RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public update6(requestParameters: Update6RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ActivityResponse>;
+    public update6(requestParameters: Update6RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ActivityResponse>>;
+    public update6(requestParameters: Update6RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ActivityResponse>>;
+    public update6(requestParameters: Update6RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update5.');
+            throw new Error('Required parameter id was null or undefined when calling update6.');
         }
         const activityRequest = requestParameters?.activityRequest;
         if (activityRequest === null || activityRequest === undefined) {
-            throw new Error('Required parameter activityRequest was null or undefined when calling update5.');
+            throw new Error('Required parameter activityRequest was null or undefined when calling update6.');
         }
 
         let localVarHeaders = this.defaultHeaders;

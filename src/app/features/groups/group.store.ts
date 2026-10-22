@@ -136,13 +136,11 @@ export const GroupStore = signalStore(
 
       try {
         const created = await firstValueFrom(
-          groupsApi.create6({ groupRequest: request })
+          groupsApi.create5({ groupRequest: request })
         );
 
         patchState(store, {
-          groups: [...store.groups(), created].sort((a, b) =>
-            (a.name ?? '').localeCompare(b.name ?? '', 'fr')
-          ),
+        
           saving: false
         });
 
@@ -165,15 +163,12 @@ export const GroupStore = signalStore(
 
       try {
         const updated = await firstValueFrom(
-          groupsApi.update3({ id, groupRequest: request })
+          groupsApi.update4({ id, groupRequest: request })
         );
 
         patchState(store, {
           groups: store.groups()
-            .map(group => group.id === id ? updated : group)
-            .sort((a, b) =>
-              (a.name ?? '').localeCompare(b.name ?? '', 'fr')
-            ),
+           ,
           saving: false
         });
 

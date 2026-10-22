@@ -27,8 +27,8 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     GroupsServiceInterface,
-    Create6RequestParams,
-    Update3RequestParams
+    Create5RequestParams,
+    Update4RequestParams
 } from './groups.serviceInterface';
 
 
@@ -49,13 +49,13 @@ export class GroupsService extends BaseService implements GroupsServiceInterface
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create6(requestParameters: Create6RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GroupResponse>;
-    public create6(requestParameters: Create6RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GroupResponse>>;
-    public create6(requestParameters: Create6RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GroupResponse>>;
-    public create6(requestParameters: Create6RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create5(requestParameters: Create5RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GroupResponse>;
+    public create5(requestParameters: Create5RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GroupResponse>>;
+    public create5(requestParameters: Create5RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GroupResponse>>;
+    public create5(requestParameters: Create5RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const groupRequest = requestParameters?.groupRequest;
         if (groupRequest === null || groupRequest === undefined) {
-            throw new Error('Required parameter groupRequest was null or undefined when calling create6.');
+            throw new Error('Required parameter groupRequest was null or undefined when calling create5.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,17 +172,17 @@ export class GroupsService extends BaseService implements GroupsServiceInterface
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public update3(requestParameters: Update3RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GroupResponse>;
-    public update3(requestParameters: Update3RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GroupResponse>>;
-    public update3(requestParameters: Update3RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GroupResponse>>;
-    public update3(requestParameters: Update3RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public update4(requestParameters: Update4RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GroupResponse>;
+    public update4(requestParameters: Update4RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GroupResponse>>;
+    public update4(requestParameters: Update4RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GroupResponse>>;
+    public update4(requestParameters: Update4RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update3.');
+            throw new Error('Required parameter id was null or undefined when calling update4.');
         }
         const groupRequest = requestParameters?.groupRequest;
         if (groupRequest === null || groupRequest === undefined) {
-            throw new Error('Required parameter groupRequest was null or undefined when calling update3.');
+            throw new Error('Required parameter groupRequest was null or undefined when calling update4.');
         }
 
         let localVarHeaders = this.defaultHeaders;

@@ -27,10 +27,10 @@ import { Configuration }                                     from '../configurat
 import { BaseService } from '../api.base.service';
 import {
     CommissionsServiceInterface,
-    Create7RequestParams,
+    Create6RequestParams,
     Deactivate2RequestParams,
     FindById2RequestParams,
-    Update4RequestParams
+    Update5RequestParams
 } from './commissions.serviceInterface';
 
 
@@ -52,13 +52,13 @@ export class CommissionsService extends BaseService implements CommissionsServic
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public create7(requestParameters: Create7RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionResponse>;
-    public create7(requestParameters: Create7RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionResponse>>;
-    public create7(requestParameters: Create7RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionResponse>>;
-    public create7(requestParameters: Create7RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public create6(requestParameters: Create6RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionResponse>;
+    public create6(requestParameters: Create6RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionResponse>>;
+    public create6(requestParameters: Create6RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionResponse>>;
+    public create6(requestParameters: Create6RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const commissionRequest = requestParameters?.commissionRequest;
         if (commissionRequest === null || commissionRequest === undefined) {
-            throw new Error('Required parameter commissionRequest was null or undefined when calling create7.');
+            throw new Error('Required parameter commissionRequest was null or undefined when calling create6.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -296,17 +296,17 @@ export class CommissionsService extends BaseService implements CommissionsServic
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public update4(requestParameters: Update4RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionResponse>;
-    public update4(requestParameters: Update4RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionResponse>>;
-    public update4(requestParameters: Update4RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionResponse>>;
-    public update4(requestParameters: Update4RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public update5(requestParameters: Update5RequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionResponse>;
+    public update5(requestParameters: Update5RequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionResponse>>;
+    public update5(requestParameters: Update5RequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionResponse>>;
+    public update5(requestParameters: Update5RequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update4.');
+            throw new Error('Required parameter id was null or undefined when calling update5.');
         }
         const commissionRequest = requestParameters?.commissionRequest;
         if (commissionRequest === null || commissionRequest === undefined) {
-            throw new Error('Required parameter commissionRequest was null or undefined when calling update4.');
+            throw new Error('Required parameter commissionRequest was null or undefined when calling update5.');
         }
 
         let localVarHeaders = this.defaultHeaders;
