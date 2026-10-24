@@ -119,7 +119,6 @@ import { phoneNumberValidator } from './login.utils';
                   <div class="flex items-center justify-between gap-4 text-sm"><label class="flex cursor-pointer items-center gap-2 text-slate-600"><p-checkbox formControlName="remember" [binary]="true" />Se souvenir de moi</label><button type="button" class="font-medium text-[var(--brand-primary)]">Mot de passe oublié ?</button></div>
                   @if (authStore.error()) { <div class="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{{ authStore.error() }}</div> }
                   <p-button type="submit" label="Se connecter" icon="pi pi-arrow-right" iconPos="right" styleClass="w-full" [loading]="authStore.loading()" [disabled]="passwordForm.invalid || authStore.loading()" />
-                  <div class="rounded-xl border border-dashed border-[var(--brand-border)] bg-[var(--brand-bg)] p-3 text-xs text-slate-600">Compte administrateur de démonstration : <strong>admin&#64;daramassalik.local</strong> / <strong>ChangeMe123!</strong></div>
                 </form>
               }
             </div>
