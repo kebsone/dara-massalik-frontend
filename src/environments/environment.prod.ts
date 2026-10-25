@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '/api'
+  apiUrl: 'https://dara-massalik-backend.onrender.com/api'
 } as const;
