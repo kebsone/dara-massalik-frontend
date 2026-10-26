@@ -13,7 +13,7 @@ import { Configuration } from './configuration';
 import { OpenApiHttpParams, QueryParamStyle, concatHttpParamsObject} from './query.params';
 
 export class BaseService {
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'https://dara-massalik-backend.onrender.com/api';
     public defaultHeaders = new HttpHeaders();
     public configuration: Configuration;
     public encoder: HttpParameterCodec;
