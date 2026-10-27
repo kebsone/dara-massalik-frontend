@@ -162,7 +162,7 @@ code: new FormControl('', {
 
   readonly passwordForm = new FormGroup({
     email: new FormControl('admin@daramassalik.local', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('ChangeMe123!', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
+    password: new FormControl('serignetoubambacke18safar!', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
     remember: new FormControl(true, { nonNullable: true })
   });
 
